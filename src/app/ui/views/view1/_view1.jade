@@ -1,0 +1,102 @@
+include ../../tasks/_task.jade
+include ../../tasks/_timeTracking.jade
+
+#container(ng-controller='View1')
+  .header(ng-if='!config.hasRoles')
+    h3 People
+    include ../../_actions.jade
+
+  table.header(ng-if='config.hasRoles'): tr
+    td(valign='top').text: h3 People
+    td.filters(ng-if='!connected')
+    td.filters(ng-if='connected')
+      span.speciality Speciality:
+      ui-select.speciality(ng-model='$parent.$parent.$parent.selectedRole', theme='selectize', ng-disabled='disabled').ui-select
+        ui-select-match(placeholder='Select role...') {{$select.selected.name}}
+        ui-select-choices(repeat='role in peopleRoles | filter: {name: $select.search}')
+          div(ng-bind-html='role.name | highlight: $select.search')
+      span.contract Contract:
+      ui-select.contract(ng-model='$parent.$parent.$parent.selectedCompany', theme='selectize', ng-disabled='disabled').ui-select
+        ui-select-match(placeholder='Select company...') {{$select.selected.name}}
+        ui-select-choices(repeat='company in filterCompanies | filter: {name: $select.search}')
+          div(ng-bind-html='company.name | highlight: $select.search')
+      span.contract Manager:
+      ui-select.contract(ng-model='$parent.$parent.$parent.selectedManager', theme='selectize', ng-disabled='disabled').ui-select
+        ui-select-match(placeholder='Select manager...') {{$select.selected.name}}
+        ui-select-choices(repeat='manager in filterManagers | filter: {name: $select.search}')
+          div(ng-bind-html='manager.name | highlight: $select.search')
+      span.workload By workload:
+      ui-select.workload(ng-model='$parent.$parent.$parent.selectedLoad', theme='selectize', ng-disabled='disabled').ui-select
+        ui-select-match(placeholder='Select load...') {{$select.selected.name}}
+        ui-select-choices(repeat='load in filterLoad | filter: {name: $select.search}')
+          div(ng-bind-html='load.name | highlight: $select.search')
+    td(valign='top' style='width: {{(layout.width <= 1600 ? (config.autosave ? 293 : 334) : (config.autosave ? 448 : 546)) - (mode == "original" ? (layout.width <= 1600 ?  41 : 45) : 0)}}px').actions
+      include ../../_actions.jade
+  div(style='width:{{layout.area1.width}}px;height:{{layout.height}}px')
+    #top-block(style='width:{{layout.area1.width}}px;height:{{layout.area1.height}}px')
+      include ../../_setupInstruction
+      .load-spinner(ng-if="view.data.peopleStatus == 'load' || view.data.peopleStatus == 'update' || view.data.tasksStatus == 'load' || view.data.tasksStatus == 'update'")
+        .spinner
+          .dot1
+          .dot2
+      .sub-header(ng-if="view.data.peopleStatus == 'ready' || view.data.peopleStatus == 'update'")
+        table.left-space(width='100%'): tr
+          td: div.unhide(ng-if='view.hiddenPeopleCount > 0')
+            span.action(ng-click='view.unhideAll(); $event.preventDefault()') Unhide
+            span {{view.hiddenPeopleCount + (view.hiddenPeopleCount == 1 ? ' person' : ' people')}}
+          td(align='right'): .week-number Week: {{view.startDate.week()}}
+        .prev-next-week
+          button.btn(ng-click='view.periodChange(-1)' rms-view1-mouse-over-week-change='-1')
+            i.fa.fa-caret-left
+        .day(ng-repeat='day in view.days')
+          div(ng-bind-html='filter.calendarHeader(day, "date")')
+          small(ng-bind-html='filter.taskPeriod(day, "workTime", day.timeSpent)')
+        .prev-next-week
+          button.btn(ng-click='view.periodChange(1)' rms-view1-mouse-over-week-change='1')
+            i.fa.fa-caret-right
+      .people(ng-if="view.data.peopleStatus == 'ready' || view.data.peopleStatus == 'update'")
+        .scroll-viewport(style='height:{{layout.area1.height - 42}}px')
+          .scroll-body(same-height='view.renderVer')
+            .vertical-lines(same-height-dest='')
+              - var n = 1
+              while n <= 9
+                .col(class="col" + n++)
+            ul.people-table(same-height-src='')
+              li.person-row.drop-zone(data-day='-1', ng-repeat='row in view.rows', ng-class='{expand:row.expand}', rms-view1-drop-task='', style="{{expandedHeight(row)}}")
+                .person-info
+                  table
+                    tbody
+                      tr
+                        td.hide
+                          img(no-drag='' src='./images/icons/eye46.svg', ng-click='view.hideRow(row)').hide
+                        td.avatar
+                          img.avatar(no-drag='' ng-src='{{row.person.avatar}}', alt='')
+                        td.name {{row.person.name}}
+                        td.expand
+                          .expand-icon(ng-click='row.expand = !row.expand; resizeInProgress()')
+                            i.fa.fa-caret-down(ng-if='!row.expand' )
+                            i.fa.fa-caret-up(ng-if='row.expand')
+                .estimate {{filter.taskPeriod(row.personDayStat, 'totalPeriodTime')}}
+                .total.drop-zone(ng-repeat="dayStat in row.personDayStat.dayStats", class="day{{$index}}" data-day='{{$index}}')
+                  .loaded(class="{{taskSummaryColor(dayStat)}}" style="width:{{dayTaskWidth(dayStat)}}%")
+                  span.person-day-time {{filter.taskPeriod(dayStat, 'tasksTotal', dayStat.timeSpent)}}
+                  span.task-count(ng-if='dayStat.tasksCount>0').task-count {{dayStat.tasksCount}}
+                .tasks(ng-if='row.expand', style="{{expandedHeight(row)}}")
+                  ul
+                    li.task(ng-repeat='taskView in row.tasks' style="left:{{((3 * taskView.x + 8) * (100/30)).toFixed(5)}}%;top:{{Math.round(taskView.y*65)}}px;width:{{((taskView.len * 3 - 0.2) * (100/30)).toFixed(5)}}%")
+                      +task('taskView.task', 'taskView.time', 'taskView.task')
+                      +timeTracking()
+
+    .handler.handler-horiz(ui-layout-resizer='horizontal', style='left:{{Math.round(layout.area1.width / 2 - 22.5)}}px;top:{{Math.round(layout.area1.height - 7.5) + 44}}px')
+      i.fa.fa-caret-down
+      i.fa.fa-caret-up
+
+    include ../view2/_view2.jade
+
+  .handler.handler-vertical(ui-layout-resizer='vertical', style='left:{{Math.round(layout.area1.width - 7.5)}}px;top:{{40 + Math.round(layout.area1.height / 2 - 22.5)}}px')
+    i.fa.fa-caret-left
+    i.fa.fa-caret-right
+
+  include ../view3/_view3.jade
+
+

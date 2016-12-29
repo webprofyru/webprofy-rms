@@ -1,0 +1,21 @@
+.action-buttons
+  padding: 3px 9px
+  button
+    float: left
+  @include breakpoint(0px 1600px)
+    button
+      width: 36px
+      &:not(:last-child())
+        margin-right: 5px
+      table td:nth-child(2)
+        display: none
+  @include breakpoint(1600px)
+    .addTask, .refresh, .time-spent, .undo, .redo
+      width: 36px
+    .addTask, .refresh, .time-spent, .edited, .redo
+      margin-right: 16px
+    .changes, .undo
+      margin-right: 6px
+  button
+    &.addTask > img, &.refresh > img, &.time-spent > img
+      margin-top: 3px

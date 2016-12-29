@@ -1,0 +1,23 @@
+block vars
+
+doctype html
+html(lang='en' ng-app='#{appName}')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width')
+    title #{title}
+    base(href='/' target='_self')
+    link(href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome#{min}.css' rel='stylesheet')
+    link(href='http://fonts.googleapis.com/css?family=Roboto:400,100,500&subset=cyrillic-ext,latin' rel='stylesheet' type='text/css')
+
+    block css
+
+  body
+    
+    block content
+      
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto#{min}.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular#{min}.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/i18n/angular-locale_ru-ru.js')
+
+    block scripts

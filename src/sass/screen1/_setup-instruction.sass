@@ -1,0 +1,12 @@
+#setup-instruction
+  @include container()
+  @include layout((1, 4, 1) no-gatters)
+  a
+    text-decoration: none
+    color: black
+    font-weight: 500
+  & > div
+    @include pre(1 at 1)
+    @include span(1 at 2)
+    padding-top: 10px
+

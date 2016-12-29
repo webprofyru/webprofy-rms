@@ -1,0 +1,96 @@
+// Area1, Area2 & Area3 locatino within #container
+#container
+  @include absolute-pos(0, null, null, 0)
+  width: 100%
+
+  div.header
+    @include container
+    h3
+      padding-left: $wide-border
+      line-height: $header-height
+      @include span(1 at 1 of (1, 6))
+    .action-buttons
+      @include span(1 at 2 of (1, 6))
+      width: auto
+
+  table.header
+    height: 40px
+    width: 100%
+    td.text
+      h3
+        width: 100%
+
+  @include breakpoint(1350px)
+    @include layout((2, 2, 3, 2, 3, 2, 3, 2, 3, 1, 10) no-gatters)
+    table.header
+      td.text
+        width: 10%
+      td.filters
+        width: 98%
+        $filtersLayout: (2, 3, 2, 3, 2, 3, 2, 3)
+        & > span
+          @include span(1 at 1 of $filtersLayout no-gatters)
+        .ui-select
+          @include span(1 at 2 of $filtersLayout no-gatters)
+
+  @include breakpoint(0px 1350px)
+    @include layout((2, 2, 3, 2, 3, 2, 3, 2, 3, 1, 10) no-gatters)
+    table.header
+      td.text
+        width: 10%
+      td.filters
+        width: 90%
+        @include container
+        $filtersLayout: (0, 3, 0, 3, 0, 3, 0, 3)
+        & > span
+          display: none
+        .ui-select
+          @include span(1 at 2 of $filtersLayout no-gatters)
+
+  @include breakpoint(1400px)
+    table.header
+      td.actions
+        .action-buttons
+          width: 100%
+
+  @include breakpoint(0px 1400px)
+    table.header
+      td.actions
+        .action-buttons
+          width: 100%
+
+  .header
+    width: 100%
+    height: $header-height
+    background: $color-header
+    h3
+      padding-left: $wide-border
+      line-height: $header-height
+      // Hack: For unknown reason h3 got top and bottom margins
+      margin-top: 0
+      margin-bottom: 0
+    .filters
+      @include span(6 at 2)
+      & > span
+        line-height: $header-height
+        font-size: 14px
+        text-align: right
+        margin-top: -0.1rem
+        padding-left: 0.2rem
+        padding-right: 0.2rem
+      .ui-select
+        margin-top: 0.4rem
+        padding-right: 0.5rem
+    ul.action-buttons
+
+
+  #top-block
+    @include absolute-pos($header-height, null, null, 0)
+    width: 100%
+    background: $color-bg
+
+  #bottom-block
+    @include absolute-pos(null, null, 0, 0)
+    width: 100%
+    background: $color-bg
+    border-top: $border

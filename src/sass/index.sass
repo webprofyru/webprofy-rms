@@ -1,0 +1,107 @@
+@import lib/normalize
+@import lib/susy
+@import lib/breakpoint
+
+//--- Variables
+//media
+$break-phone:   600px
+$break-small:   768px
+$break-medium:  992px
+$break-1150:    1150px
+$break-large:  1240px
+
+// reponsivenesss
+$narrow: 0 40rem
+$wide: 40rem
+$wide-border: 10%
+
+// initial susy layout
+@include layout(100% 1 0 border-box)
+
+// base font size
+$ms-base: 1rem
+$base-font-size: $ms-base
+$base-line-height: 1.5rem
+html
+  @include container
+  font-family: 'Roboto', sans-serif
+
+
+$wide-container: layout(80% 1 0)
+
+//colors
+//$color-header: #CBC895
+//$color-header: #B3E0BB
+//$color-header: #A9CBFF
+$color-header: #E2CD8A
+
+$color-header-light: lighten($color-header, 8%)
+$color-header-dark: darken($color-header, 15%)
+
+$color-bg: #F0F0F0
+$color-dark-white: #FAFAFA
+$color-white: #FFFFFF
+$color-black: #000000
+$color-border: #AAAAAA
+$border: 1px solid #AAAAAA
+
+$button-color: $color-black
+$button-background-color: lighten($color-header, 20%)
+$button-background-hover-color: lighten($color-header, 15%)
+$button-active-color: $color-white
+$button-active-background-color: darken($color-header, 30%)
+$button-active-background-hover-color: darken($color-header, 25%)
+
+$color-task-blue: #BCD2E9
+$color-task-bright-blue: #D1F0ED
+//$color-task-red: #E8BCBC
+$color-task-red: #FBC1C1
+$color-task-green: #A2FBA2
+$color-task-orange: #F7BC50
+
+//sizes
+
+$header-height: 44px
+$wide-border: 1rem
+
+//--- Mixins
+
+@mixin btn($bg-color,$color)
+  border: $border
+  padding: 5px 12px 5px 10px
+  background: $bg-color
+  color: $color
+  i
+    font-size: 15px
+    margin-right: 4px
+  &:hover
+    background: darken($bg-color, 10%)
+    color: lighten($color, 30%)
+
+@mixin horizontal-list($margin-right)
+  list-style-type: none
+  margin: 0
+  li
+    float: left
+    margin-right: $margin-right
+
+@import 'partials/backdrop'
+@import 'partials/mixins'
+@import 'partials/general'
+@import 'partials/shadow'
+
+// TODO: Later remove either one - they duplicate functionality
+@import 'partials/spinner'
+@import 'partials/loader'
+
+@import 'partials/handler'
+
+@import 'partials/scroller'
+@import 'partials/select'
+
+@import 'partials/account'
+@import 'partials/emails'
+
+@import 'screen1/screen'
+@import 'screen1/view3Filter'
+@import 'screen1/buttons'

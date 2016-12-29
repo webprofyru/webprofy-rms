@@ -1,0 +1,120 @@
+@include layout((7, 1, 3, 3, 3, 3, 3, 3, 3, 1) no-gutters) // Person, Time, 7 x days, right small column
+
+// it's here since it used also by bottom-block
+.total
+  position: absolute
+  height: 100%
+  @include span(1 at 3) // Width of daily column
+  @for $i from 0 through 6
+    &.day#{$i}
+      @include pre(($i + 2))
+
+#top-block
+
+  .sub-header
+    .left-space
+      @include span(1 at 1)
+      min-height: 1px
+      padding-left: $wide-border
+      .input-wrapper
+        display: block
+        width: 120px
+        input
+          width: 100%
+        i
+          top: 14px
+          right: -6px
+    .prev-next-week
+      @include span(1 at 2)
+    .day
+      @include span(1 at 3)
+      font-size: 12px
+      line-height: 1.5
+      padding-top: 4px
+      text-align: center
+      &>small
+        display: block
+        color: $color-black
+    .btn
+      padding: 0 8px
+      height: 30px
+      margin-top: 5px
+      line-height: 30px
+
+  .people
+    overflow: hidden
+    &>ul
+      overflow-y: scroll
+    .people-table
+      width: 100%
+    .person-row
+      position: relative
+      overflow: hidden
+      border-bottom: $border
+      height: 2rem
+      line-height: 2rem
+      @include transition(all .2s ease)
+      .person-info
+        @include span(1 at 1)
+        padding-left: 0.2rem
+        padding-right: 0.2rem
+        table
+          width: 100%
+          td
+            vertical-align: top
+          .hide
+            width: 1rem
+            img
+              padding-right: 0.3rem
+              padding-top: 0.3rem
+              opacity: 0.5
+              cursor: pointer
+          +person()
+          .expand
+            text-align: right
+            font-size: 14px
+            cursor: pointer
+            i
+              background: lighten($color-bg, 2%)
+              padding: 3px 5px
+              border-radius: 5px
+      .estimate
+        @include span(1 at 2)
+        font-size: 12px
+        text-align: center
+      .total
+        .task-count
+          display: block
+          position: absolute
+          top: 1px
+          right: 3px
+          font-size: 11px
+          line-height: 1
+          opacity: 0.5
+        .person-day-time
+          position: absolute
+          width: 100%
+          height: 100%
+          display: block
+          padding-left: 5px
+          font-size: 10px
+        .loaded
+          position: absolute
+          width: 0%
+          height: 100%
+          &.green
+            //background-color: #106301
+            background-color: #69D869
+          &.red
+            //background-color: #9C2100
+            background-color: #EF6363
+          &.light-yellow
+            background-color: darken(#F6F0CC, 10%)
+      .tasks
+        display: block
+        position: absolute
+        top: 32px
+        width: 100%
+        overflow: hidden
+        .task
+          @extend %task-on-grid

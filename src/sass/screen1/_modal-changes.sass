@@ -1,0 +1,87 @@
+#modal-changes
+  position: absolute
+  overflow: hidden
+  z-index: 1000
+  top: $header-height + 3px
+  left: 50%
+  -webkit-transform: translate(-50%, 0)
+  -moz-transform: translate(-50%, 0)
+  transform: translate(-50%, 0)
+  width: 70%
+  padding: 5px 15px
+  background-color: $color-header-light
+  border-radius: 5px
+  font-size: 12px
+  h3
+    margin: 10px 0
+  .action-buttons
+    width: 78px
+    padding: 3px 0
+    .redo
+      margin-right: 0
+  table.title
+    margin-bottom: 6px
+  .main-table-border
+    border: $border
+  table.header
+    th
+      font-weight: normal
+    background-color: lighten($color-header-light, 10%)
+    border-bottom: 1px solid #AAAAAA
+    line-height: 20px
+  table.main-table
+    table-layout: fixed
+    width: 100%
+    tr.dark
+      background-color: darken($color-header-light, 5%)
+    tr.error
+      color: red
+    td, th
+      text-align: left
+      padding: 2px 5px
+      border-left: $border
+      border-right: $border
+      &>div
+        width: auto
+        text-overflow: ellipsis
+    td, th
+      &:nth-child(1)
+        width: 10%
+        border-left: none
+      &:nth-child(2)
+        width: 15%
+      &:nth-child(3)
+        width: 25%
+      &:nth-child(4)
+        width: 20%
+      &:nth-child(5)
+        width: 20%
+      &:nth-child(6)
+        width: 10%
+        text-align: center
+        border-right: none
+  .table-scroll
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: lighten($color-header-light, 5%)
+    table-layout: fixed
+    .icon-remove
+      cursor: pointer
+      &:hover
+        opacity: 0.5
+  .btn-group
+    width: 100%
+    margin-top: 1rem
+    button.changes-modal-reset
+      float: left
+    button.changes-modal-save
+      float: right
+      margin-right: 1rem
+    button.changes-modal-close
+      float: right
+      img
+        width: 12px
+        padding-right: 2px
+    img
+      width: 20px
+      margin-top: 2px

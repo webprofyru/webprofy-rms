@@ -1,0 +1,64 @@
+$btn-width-unit: 20px
+
+#screen1
+  position: relative
+  overflow: hidden
+
+  %task-on-grid
+    position: absolute
+    box-sizing: border-box
+    width: 11.8%
+    font-size: 12px
+
+  .sub-header
+    height: $header-height
+    background: $color-header-light
+    line-height: $header-height
+    overflow: hidden
+    .week-number
+      padding-right: 6px
+      font-size: 12px
+    .unhide
+      margin-left: 1rem
+      font-size: 12px
+      &>span
+        padding-right: 4px
+      .action
+        color: #1D1DFF
+        font-weight: 500
+        text-decoration: underline
+
+  .selector
+    font-size: 12px
+    &>span
+      padding-right: 8px
+    .input-wrapper
+      display: inline
+      position: relative
+      i
+        @include absolute-pos(2px, 4px, null, null)
+        opacity: 0.4
+
+  input
+    padding: 3px 6px
+    border-radius: 3px
+    border: none
+
+  @import 'layout'
+
+  @import 'task'
+  @import 'person'
+  @import 'actions'
+  @import 'vertical-lines'
+
+  @import 'top-block'
+  @import 'bottom-block'
+  @import 'sidebar'
+
+  @import 'modal-task-info'
+  @import 'modal-task'
+  @import 'modal-changes'
+
+  @import 'modal-add-comment'
+
+  @import 'setup-instruction'

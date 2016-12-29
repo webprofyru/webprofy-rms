@@ -1,0 +1,80 @@
+// Project local common mixins
+
+@mixin table($columns)
+  $sum: 0
+  @for $i from 1 through length($columns)
+    $sum: $sum + nth(nth($columns, $i), 2)
+  @for $i from 1 through length($columns)
+    td.#{nth(nth($columns, $i), 1)}
+      width: round(nth(nth($columns, $i), 2) * 100 / $sum) * 1%
+
+@mixin a-tag-without-hover-effect($text-color)
+  &, &:hover, &:focus // no visible links
+    color: $text-color
+    text-decoration: none
+    outline: none
+
+@mixin div-height($size, $v-shift: 0)
+  line-height: vr(ms($size))
+  height: vr(ms($size))
+  $t: vr(ceil(ms($size))) / 2
+  margin: ($t + $v-shift) 0 ($t - $v-shift) 0
+  //min-height: vr(ceil(ms($size)))
+
+@mixin placeholder
+  &::-webkit-input-placeholder
+    @content
+  &:-moz-placeholder
+    @content
+  &::-moz-placeholder
+    @content
+  &:-ms-input-placeholder
+    @content
+
+@mixin transform($params...)
+  -webkit-transform: $params
+  -moz-transform: $params
+  -o-transform: $params
+  transform: $params
+
+// ------
+
+@mixin inner-shadow
+  +box-shadow(rgba(black, .3) 0 -2px 8px 0 inset)
+
+@mixin light-text-shadow($opacity)
+  text-shadow: 0 0 5px rgba(255,255,255,$opacity)
+
+@mixin transition($params...)
+  -webkit-transition:  $params
+  -moz-transition:  $params
+  -ms-transition:  $params
+  -o-transition:  $params
+  transition:  $params
+
+@mixin transform($params...)
+  -webkit-transform:  $params
+  -moz-transform:  $params
+  -ms-transform:  $params
+  -o-transform:  $params
+  transform:  $params
+
+@mixin transform-origin($params...)
+  -webkit-transform-origin:  $params
+  -moz-transform-origin:  $params
+  -ms-transform-origin:  $params
+  -o-transform-origin:  $params
+  transform-origin:  $params
+
+@mixin absolute-pos($top, $right, $bottom, $left)
+  position: absolute
+  @if $top != null
+  top: $top
+  @if $right != null
+  right: $right
+  @if $bottom != null
+  bottom: $bottom
+  @if $left != null
+  left: $left
+
+

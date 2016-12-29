@@ -1,0 +1,14 @@
+#setup-instruction(ng-if="connected == false")
+  div
+    p To begin using <a href='http://rms.webprofy.ru' target='_blank'>Resource Management System (RMS)</a> for
+      | <a href='http://www.teamwork.com' target='_blank'>Teamwork PM</a> you need to provide an access to your teamwork account.
+    p To do so, please, perform following steps:
+      ol
+        li In the Teamwork go to Person profile menu and select 'Edit my details'
+        li Switch to tab 'API & Mobile'
+        li Click Get API Token and confirm that you understand the security risks
+        li Copy given token to the clipboard
+        li In RMS (this application) open Account (See the button at the right-upper corner)
+        li Enter token from the clipboard to 2nd field
+        li Copy your teamwork account URL to the 1st field
+        li Click Save

@@ -1,0 +1,27 @@
+.action-buttons
+  button.flat-button.addTask(ng-disabled='!connected' ng-if="mode=='edited'" rms-task-add='' ng-click='addTask()' title='Add new task')
+    img(src='./images/icons/plus.svg')
+  button.flat-button.refresh(ng-disabled='!connected' ng-click='dataService.refresh()' title='Refresh data')
+    img(no-drag='' src='./images/icons/refresh.svg')
+  button.flat-button.time-spent(ng-disabled='!connected' ng-if='config.hasRoles' ng-click='dataService.showTimeSpent = !dataService.showTimeSpent' ng-class='{active: dataService.showTimeSpent}' title='Show time spent')
+    img(no-drag='' src='./images/icons/wall-clock.svg')
+  button.flat-button.edited(ng-disabled='!connected' ng-if="mode=='edited'" ng-click="setMode('original')" title='Show server data')
+    table: tr
+      td: img(no-drag='' src='./images/icons/edit.svg')
+      td edited
+  button.flat-button.edited.active(ng-disabled='!connected' ng-if="mode=='original'" ng-click="setMode('edited')" title='Show edited data')
+    table: tr
+      td: img(no-drag='' src='./images/icons/server.svg')
+      td original
+  button.flat-button.changes(ng-disabled='!connected' ng-if='!config.autosave' ng-class='{disabled: !changes.anyChange()}' ng-click='changes.anyChange() && showChanges()' title='Save changes')
+    table: tr
+      td: img(no-drag='' src='./images/icons/list.svg')
+      td changes
+  button.flat-button.undo.without-sign(ng-disabled='!connected' ng-class='{disabled: !changes.hist.hasUndo()}' ng-click='changes.hist.hasUndo() && changes.hist.undo()' title='Undo')
+    img(no-drag='' src='./images/icons/undo.svg')
+  button.flat-button.redo.without-sign(ng-disabled='!connected' ng-class='{disabled: !changes.hist.hasRedo()}' ng-click='changes.hist.hasRedo() && changes.hist.redo()' title='Redo')
+    img(no-drag='' src='./images/icons/redo.svg')
+  button.flat-button.account(ng-click='showAccount()' title='Account settings')
+    table: tr
+      td: img(no-drag='' src='./images/icons/user.svg')
+      td account

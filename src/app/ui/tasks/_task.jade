@@ -1,0 +1,18 @@
+mixin task(path, time, ngIf)
+  .task-body(ng-if='#{ngIf ? ngIf : true}' set-task-visible='#{path}' rms-task='#{path}' ng-model='#{path}' ng-class='{plan:#{path}.plan,split:#{path}.split,overdue:#{path}.isOverdue(),"no-estimate":#{path}.estimate == null,"grade-easy":#{path}.grade()=="easy","grade-medium":#{path}.grade()=="medium","grade-hard":#{path}.grade()=="hard","grade-complex":#{path}.grade()=="complex"}')
+    .task-progress(ng-if='#{path}.timeTracking')
+      .load(ng-if='!#{path}.timeTracking.isReady')
+        img(no-drag='' src='/images/icons/reload9.svg')
+      div(ng-if='#{path}.timeTracking.isReady')
+        .spent(style='width:{{#{path}.timeWithinEstimate()}}%')
+        .overestimate(style='width:{{#{path}.timeAboveEstimate()}}%')
+        .percent {{#{path}.timeReported()}}
+    span.project {{#{path}.project.name}}
+    span.title {{#{path}.title}}
+    span.duration(ng-if='!taskView.split' rms-task-duration='') {{filter.taskPeriod(#{path},'estimate'#{time ? ',' + time : ''})}}
+    span.due-date(rms-task-due-date='') {{filter.shortDate(#{path},'duedate')}}
+    ul.split-task(ng-if='taskView.split')
+      li(ng-repeat='duration in taskView.split')
+        span.duration(style="left: {{duration.x * 3/21 * 7/taskView.len * 100}}%" rms-task-due-date-position='$index == taskView.split.length') {{filter.splitDuration(duration.plan,duration.time)}}
+
+

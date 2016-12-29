@@ -1,0 +1,35 @@
+$handler-width: 45px
+$handler-height: 15px
+
+.handler
+  position: absolute
+  background-color: $color-header
+  border-radius: 3px
+  cursor: pointer
+  i
+    position: absolute
+    color: white
+
+.handler-horiz
+  width: $handler-width
+  height: $handler-height
+  z-index: 20
+  i
+    &:first-child
+      top: 1px
+      left: 10px
+    &:last-child
+      top: -1px
+      left: 27px
+
+.handler-vertical
+  width: $handler-height
+  height: $handler-width
+  z-index: 20
+  i
+    &:first-child
+      top: 10px
+      left: 4px
+    &:last-child
+      top: 27px
+      left: 5px

@@ -1,0 +1,90 @@
+html
+  - email.title = email.person.name + ': План загрузки с ' + email.startDate + ' по ' + email.endDate
+  body
+    div(dir='ltr')
+      div
+        div
+          span(style='font-size:13px') Привет, #{email.toName}!
+          br
+        div
+          //div(style='font-size:13px')
+          //  div: br
+          //  div <b>В предыдущей версии рассылки плана на эту неделю были допущены ошибки.  Это же проверенная и исправленная версия плана!  Желаем успехов в его выполнении!!!</b>
+          //  br
+          div(style='font-size:13px')
+            div: br
+            div На эту неделю у тебя запланировано рабочих часов: <b>#{email.totalHours}</b>
+            br
+          div(style='font-size:13px')
+            div
+              table(cellspacing='0', cellpadding='0', dir='ltr', border='1', style='table-layout:fixed;font-family:arial,sans,sans-serif;border-collapse:collapse;border:1px solid rgb(204,204,204)')
+                colgroup
+                  col(width='188')
+                  col(width='119')
+                  col(width='165')
+                  col(width='210')
+                tbody
+                  tr(style='height:17px')
+                    td(style='padding:0px 3px;font-weight:bold;vertical-align:middle;text-align:center')
+                      | Проект
+                    td(style='padding:0px 3px;font-weight:bold;vertical-align:middle;text-align:center')
+                      | Часы план
+                    td(style='padding:0px 3px;font-weight:bold;vertical-align:middle;text-align:center')
+                      | Часы факт
+                    td(style='padding:0px 3px;font-weight:bold;vertical-align:middle;text-align:center')
+                      | Менеджер проекта
+                  each project in email.projects
+                    tr(style='height:17px')
+                      td(style='padding:0px 3px;vertical-align:bottom') #{project.name}
+                      //- TODO: Make hours working with html tags in it
+                      td(style='padding:0px 3px;vertical-align:bottom;text-align:center') !{project.hours}
+                      td(style='padding:0px 3px;vertical-align:bottom')
+                      td(style='padding:0px 3px;vertical-align:bottom') #{project.manager}
+                  - var n = 20
+                  while n-- > 0
+                    tr(style='height:17px')
+                      td(style='padding:0px 3px;vertical-align:bottom')
+                      td(style='padding:0px 3px;vertical-align:bottom;text-align:center')
+                      td(style='padding:0px 3px;vertical-align:bottom')
+                      td(style='padding:0px 3px;vertical-align:bottom')
+                  tr(style='height:24px')
+                    td(style='padding:0px 3px;vertical-align:bottom;font-weight:bold') Итого за неделю:
+                    td(style='padding:0px 3px;font-weight:bold;vertical-align:bottom;text-align:center') #{email.totalHours}
+                    td(style='padding:0px 3px;vertical-align:bottom')
+                    td(style='padding:0px 3px;vertical-align:bottom')
+          div(style='font-size:13px')
+            div
+              br
+            div
+              div
+                div
+                  | Обрати внимание! В табличке &nbsp;
+                  span(style='background-color:rgb(255,153,0)') оранжевым
+                  | &nbsp; отмечены запланированные часы по задачам, необходимость выполнения которых
+                  | зависит от каких-либо внешних условий (оплаты, утверждения и прочее). Подробности
+                  | можете узнать у менеджера проекта.
+                div: br
+                div
+                  | В конце недели считаешь количество фактически отработанных часов по каждому 
+                  | проекту и общее количество часов за неделю и заполняешь пустые ячейки.
+                div
+                  b Отправляешь табличку в пятницу вечером всем получателям, стоящим в копии письма.
+                div: br
+                div
+                  | * Добавлены пустые строки для проектов, по которым на эту неделю запланировано 
+                  | времени не было, но задачи по проектам выполнялись.
+              div: br
+              div Удачной рабочей недели :)
+            div: br
+      div
+        .gmail_signature
+          table(width='482', height='63', border='0', cellpadding='0', cellspacing='0')
+            tbody
+              tr: td(width='482')
+                p(style='font-family:Arial,sans-serif;font-size:14px;line-height:17px;margin-bottom:10px;margin-top:0px')
+                  b Верхотурова Татьяна
+                  br
+                  span(style='font-size:12px') Тестировщик, контент-менеджер
+              tr: td(width='482')
+                p(style='font-family:Arial,sans-serif;font-size:12px;line-height:17px;margin-bottom:2px;margin-top:8px')
+                  | Skype: hi_pchela  |  Моб.: 8 (980) 559-58-41  |  Моб.: 8 (916) 056-08-34

@@ -1,0 +1,33 @@
+include ../../tasks/_task.jade
+
+div(ng-controller='View2' rms-view2-day-drop-task='' ui-layout-container='', style='width:{{layout.area1.width}}px;height:{{layout.area2.height}}px')#bottom-block
+  .bottom-block-header
+    .col-title
+      h3
+        | Scheduled
+        br
+        | tasks
+  .col-late-tasks.no-scroll
+    .header
+      h4 LATE TASKS
+      // TODO: Fix it
+      .sub-header-row: small {{period.lateTasksTotalHours}}  h
+    .scroll-viewport(style='height:{{layout.area2.height - 24}}px').compensate-pre
+      .scroll-body
+        .tasks
+          ul
+            li.task(ng-repeat='task in view.tasksOverdue')
+              +task('task')
+  .col-not-assigned-tasks.no-scroll
+    .header
+      h4 NOT ASSIGNED TASKS
+    .scroll-viewport(style='height:{{layout.area2.height - 20}}px').compensate-pre
+      .scroll-body()
+        .vertical-lines(style='height:{{Math.max(layout.area2.height - 20,  Math.round(view.tasksNotAssignedHeight*65))}}px')
+          - var n = 2
+          while n <= 9
+            .col(class="col" + n++)
+        .drop-zone(ng-repeat="day in $parent.view.days" class="total day{{$index}}")
+        ul
+          li.task(ng-repeat='taskView in view.tasksNotAssigned' style="left:{{(((3 * taskView.x + 8) + 0.1) * (100/30)).toFixed(5)}}%;top:{{Math.round(taskView.y*65)}}px;width:{{((taskView.len * 3 - 0.2) * (100/30)).toFixed(5)}}%")
+            +task('taskView.task')

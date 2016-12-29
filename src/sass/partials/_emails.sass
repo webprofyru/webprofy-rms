@@ -1,0 +1,53 @@
+#svc-emails
+  @include with-layout(12 no-gatter)
+    @include pre(1)
+    @include span(10)
+    .controls
+      & > .message
+        float: left
+        width: 100%
+        padding: 0.5rem
+        margin-bottom: 1rem
+        color: white
+        &.error
+          background-color: red
+        &.inProgress
+          background-color: yellow
+        &.completed
+          background-color: green
+      & > label
+        margin-right: 0.5rem
+      & > button:not(:last-child), & > input:not(:last-child)
+        margin-right: 5rem
+      & > button:disabled
+        color: gray
+    .report
+      margin-top: 2rem
+      @include span(8)
+      .person
+        &:not(:last-child)
+          margin-bottom: 2rem
+        @include container()
+        @include with-layout(8)
+          .name
+            @include span(6)
+            color: white
+            background-color: #8BBB93
+          .status
+            @include span(2)
+            padding-left: 1rem
+            &.notSent
+              color: #FB2727
+              background-color: #EFEF8C
+            &.sent
+              color: white
+              background-color: green
+          table.projects
+            @include span(8 break)
+            td.title
+              wddth: span(4)
+            td.hours
+              width: span(2)
+            td.optHours
+              background-color: yellow
+              width: span(2)

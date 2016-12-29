@@ -1,0 +1,135 @@
+form#modal-task(ng-switch-when='task-edit' rms-task-edit='' ng-class='{"under-backdrop": addCommentAndSave}')
+  .task-modal-wrapper-main
+
+    .task-modal-row.project(ng-if='!edit.newTask')
+      .task-modal-row-title Project:
+      a.task-modal-row-value(href="{{config.teamwork + 'projects/' + task.project.id}}" target='_blank') {{task.project.name}}
+    .task-modal-row.project.edit.overflow-visible(ng-if='edit.newTask')
+      .task-modal-row-title Project:
+      ui-select.task-modal-project(ng-model='edit.project', theme='selectize', ng-disabled='!projectsList', title='Choose a project')
+        ui-select-match(placeholder='Select a project...') {{$select.selected.name}}
+        ui-select-choices(repeat='project in projectsList | filter: {name: $select.search}')
+          div(ng-bind-html='project.name | highlight: $select.search')
+      img.task-modal-icon-recycling.icon-after-select(no-drag='' src="./images/icons/recycling-can.svg" ng-click="edit.project = null")
+      a(ng-if='edit.project' href="{{config.teamwork + 'projects/' + edit.project.id}}" target='_blank')
+        img.task-modal-icon-link(no-drag='' src="./images/icons/link.svg")
+
+    .task-modal-row.task-list(ng-if='!edit.newTask')
+      .task-modal-row-title Task list:
+      a.task-modal-row-value(href="{{config.teamwork + 'tasklists/' + task.taskList.id}}" target='_blank') {{task.taskList.name}}
+    .task-modal-row.task-list.edit.overflow-visible(ng-if='edit.newTask')
+      .task-modal-row-title Task list:
+      ui-select.task-modal-task-list(ng-model='edit.taskList', theme='selectize', ng-disabled='!taskListsList', title='Choose a task list')
+        ui-select-match(placeholder='Select a task list...') {{$select.selected.name}}
+        ui-select-choices(repeat='taskList in taskListsList | filter: {name: $select.search}')
+          div(ng-bind-html='taskList.name | highlight: $select.search')
+      img.task-modal-icon-recycling.icon-after-select(no-drag='' src="./images/icons/recycling-can.svg" ng-click="edit.taskList = null")
+      a(ng-if='edit.taskList' href="{{config.teamwork + 'tasklists/' + edit.taskList.id}}" target='_blank')
+        img.task-modal-icon-link(no-drag='' src="./images/icons/link.svg")
+
+    .task-modal-row.title(ng-if='!task.$u.title')
+      .task-modal-row-title Title:
+      a.task-modal-row-value(href="{{config.teamwork + 'tasks/' + task.id}}" target='_blank')  {{task.title}}
+    .task-modal-row.title.edit(ng-if='task.$u.title')
+      .task-modal-row-title Title:
+      input.task-modal-title(type='text' ng-model='edit.title')
+      a(ng-if='task.id' href="{{config.teamwork + 'tasks/' + task.id}}" target='_blank')
+        img.task-modal-icon-link(no-drag='' src="./images/icons/link.svg")
+
+    .task-modal-row.estimate(ng-if='!task.$u.estimate')
+      .task-modal-row-title Estimate:
+      .task-modal-row-value {{filter.taskPeriod(task, 'estimate')}}
+    .task-modal-row.estimate.edit(ng-if='task.$u.estimate' widget-duration='' ng-model='edit.estimate')
+      .task-modal-row-title Estimate:
+      input(type='number').task-modal-estimate-hours
+      span.task-modal-estimate-duration h
+      input(type='number').task-modal-estimate-minutes
+      span.task-modal-estimate-duration m
+      img.task-modal-icon-recycling(no-drag='' src="./images/icons/recycling-can.svg" ng-click="edit.estimate = null")
+      span.splitDiff.warn(ng-if='edit.splitDiff') {{filter.periodDiff(edit.splitDiff)}}
+
+    .task-modal-row.duedate(ng-if='!task.$u.duedate')
+      .task-modal-row-title DueDate:
+      .task-modal-row-value {{filter.taskEditDueDate(edit.duedate)}}
+
+    .task-modal-row.duedate.edit(ng-if='task.$u.duedate' widget-date='' ng-model='edit.duedate')
+      .task-modal-row-title DueDate:
+      // Note: widget-date cannot be on <input /> since angularjs has own directive input[type=text]
+      input.task-modal-duedate(type='text')
+      img.task-modal-icon-recycling(no-drag='' src="./images/icons/recycling-can.svg" ng-click="edit.duedate = null")
+
+    .task-modal-row.responsible(ng-if='!task.$u.responsible')
+      .task-modal-row-title Person:
+      .task-modal-row-value {{task.responsible.title}}
+    .task-modal-row.responsible.edit(ng-if='task.$u.responsible')
+      .task-modal-row-title Person:
+      ui-select.task-modal-person(ng-model='edit.responsible', theme='selectize', ng-disabled='disabled', title='Choose a person')
+        ui-select-match(placeholder='Select a person...') {{$select.selected.name}}
+        ui-select-choices(repeat='person in people | filter: {name: $select.search}')
+          div(ng-bind-html='person.name | highlight: $select.search')
+      img.task-modal-icon-recycling.icon-after-select(no-drag='' src="./images/icons/recycling-can.svg" ng-click="edit.responsible = null")
+      a(ng-if='edit.responsible' href="{{config.teamwork + 'people/' + edit.responsible.id}}" target='_blank')
+        img.task-modal-icon-link(no-drag='' src="./images/icons/link.svg")
+
+    .task-modal-row.split.edit(ng-if='task.$u.estimate')
+      .task-modal-row-title Split:
+      input(type="checkbox" name="is-split" ng-model='edit.isSplit' ng-disabled='!edit.estimate || !edit.duedate')
+      button.flat-button.auto-split(ng-click='autoSplit()' ng-disabled='!edit.isSplit || edit.duedate == null || edit.duedate < today || edit.estimate == null || edit.responsible == null') AutoSplit
+
+    .task-modal-row.tags(ng-if='!task.$u.tags')
+      .task-modal-row-title Tags:
+      .task-modal-row-value.tags
+        span.task-tag(ng-repeat='tag in orderedTags' style='background-color: {{tag.color}}') {{tag.name}}
+    .task-modal-row.tags.edit(ng-if='task.$u.tags')
+      .task-modal-row-title Tags:
+      .task-modal-row-value.tags
+        span.task-tag(ng-repeat='tag in orderedTags' style='background-color: {{tag.color}}')
+          | {{tag.name}}
+          img(no-drag='' src='./images/icons/close.svg' ng-click='tagsRemove(tag)')
+        ui-select.task-modal-tag(ng-if='tagsToSelect.length > 0' ng-model='edit.tagsSelected', theme='selectize', ng-disabled='disabled', title='Choose a tag')
+          ui-select-match(placeholder='Select tag...') {{$select.selected.name}}
+          ui-select-choices(repeat='tag in tagsToSelect | filter: {name: $select.search}')
+            table: tr
+              td: .point(style='background-color: {{tag.color}}')
+              td(ng-bind-html='tag.name | highlight: $select.search')
+
+    .task-modal-row.description(ng-if='!task.$u.description')
+      .task-modal-row-title Description:
+      .task-modal-row-value {{edit.description}}
+    .task-modal-row.description.edit(ng-if='task.$u.description')
+      .task-modal-row-title Description:
+      textarea.task-modal-description(rows='4' ng-model='edit.description')
+
+  .task-modal-wrapper-split(ng-if='edit.splitView')
+    table
+      thead
+        th
+        th(ng-repeat='week in edit.splitView') {{week.monday.format('MM/DD/YYYY') + ' (' + week.monday.week() + ')'}}
+      tbody
+        tr.row-total-time(ng-repeat-start="dow in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']")
+          td
+          td(ng-if='task.$u.split' ng-repeat='week in edit.splitView' ng-class='{warn:(week.days[$parent.$parent.$index].timeLeftShow < 0)}') {{filter.timeLeft(week.days[$parent.$parent.$index].timeLeftShow) || '&nbsp;'}}
+        tr(ng-repeat-end='')
+          td {{dow}}
+          td(ng-repeat='week in edit.splitView' ng-class='{select:week.days[$parent.$index].select}')
+            .task-split-estimate-wrapper(ng-if='!task.$u.split') {{filter.taskPeriod(null, null, week.days[$parent.$parent.$index].plan.val)}}
+            .task-split-estimate-wrapper(ng-if='task.$u.split' widget-duration='' ng-model='week.days[$parent.$parent.$index].plan.val')
+              input.task-modal-estimate-hours(type='number' tabindex='{{20 + (2 * $parent.$parent.$index) + (20 * $index)}}')
+              input.task-modal-estimate-minutes(type='number' tabindex='{{21 + (2 * $parent.$parent.$index) + (20 * $index)}}')
+        tr.row-arrows
+          td
+          td(align='center')
+            button.flat-button.table-icon-arrow(ng-click='splitPrevWeek()')
+              img(no-drag='' src='./images/icons/arrow-left.svg')
+          td
+          td(align='center')
+            button.flat-button.table-icon-arrow(ng-click='splitNextWeek()')
+              img(no-drag='' src='./images/icons/arrow-right.svg')
+
+  .form-btn-row
+    button.flat-button.save(type='submit' ng-if='!viewonly && edit.newTask' ng-disabled='!(changes && edit.project && edit.taskList && edit.title)' ng-click='save($event, false)') Add
+    button.flat-button.save(type='submit' ng-if='!viewonly && !edit.newTask' ng-disabled='!(changes && edit.project && edit.taskList && edit.title)' ng-click='save($event, false)') Save
+    button.flat-button.plan(ng-disabled='!(edit.project && edit.taskList && edit.title)' ng-if='!viewonly && task.$u.plan && !edit.newTask && config.canUserSetPlan && !task.plan' ng-click='save($event, true)') {{changes ? 'Save & ' : ''}} Add to plan
+    button.flat-button.plan(ng-disabled='!(edit.project && edit.taskList && edit.title)' ng-if='!viewonly && task.$u.plan && config.canUserSetPlan && task.plan && changes' ng-click='save($event, true)') Save & Keep in plan
+    button.flat-button.plan(ng-disabled='!(edit.project && edit.taskList && edit.title)' ng-if='!viewonly && task.$u.plan && config.canUserSetPlan && task.plan && !changes' ng-click='save($event, false)') {{changes ? 'Save & ' : ''}} Remove from plan
+    button.flat-button.right(ng-click='close()') Close

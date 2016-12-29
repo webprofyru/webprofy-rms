@@ -1,0 +1,15 @@
+// Used in View1 and View2
+.vertical-lines
+  position: absolute
+  width: 100%
+  height: 100%
+  @include layout((7, 1, 3, 3, 3, 3, 3, 3, 3, 1) no-gutters) // Person, Time, 7 x days, right small column
+  .col
+    position: absolute
+    pointer-events: none
+    border-right: 1px dashed #c2ccd1
+    height: 100%
+  // View1 and View2 tasks table grid
+  @for $i from 1 through 10
+    .col#{$i}
+      @include span($i at 1)

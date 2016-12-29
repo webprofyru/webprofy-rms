@@ -1,0 +1,120 @@
+#sidebar
+  @include absolute-pos($header-height, 0, null, null)
+  background: $color-bg
+  border-left: $border
+  .none
+    padding-top: 6px
+    padding-left: 24px
+    font-style: italic
+  .notAssigned
+    padding-left: 6px;
+    padding-bottom: 6px;
+  .sub-header
+    table.tabs
+      padding-left: 0
+      padding-top: 10px
+      line-height: $header-height - 10
+      margin: 0 10px
+      font-size: 12px
+      border-spacing: 3px 0
+      border-collapse: separate
+      & > tbody > tr > td
+        height: 30px
+        border-top-left-radius: 4px
+        border-top-right-radius: 4px
+        padding: 0 14px
+        cursor: pointer
+        background: $color-header-dark
+        color: $color-dark-white
+        overflow: hidden
+        text-overflow: ellipsis
+        &.active
+          background: #FFFFFF
+          border: $border
+          color: #000000
+    &.narrow
+      table.tabs > tbody > tr > td
+        font-size: 8px
+
+  table.person
+    .avatar
+      margin-left: 6px
+  table.project
+    td
+      line-height: 24px
+  table.todo-list
+    td
+      line-height: 24px
+
+  .content-block
+    position: relative
+    font-size: 12px
+    overflow: hidden
+    padding-top: 6px
+    h3, h4
+      margin: 0
+      @include break
+    .tasks-block
+      +person()
+      padding-left: 24px
+      li
+        &:not(:last-child)
+          padding-bottom: 15px
+        table
+          td
+            vertical-align: middle
+            text-align: left
+            h3
+              padding-left: 5px
+    //i
+    //  display: inline-block
+    //h3
+    //  display: inline-block
+    //  padding-left: 5px
+    .person-projects
+      margin-left: 16px
+    .task-list
+      padding-left: 20px
+      padding-bottom: 10px
+      .task-list-title
+        cursor: pointer
+        i
+          display: inline-block
+        h4
+          display: inline-block
+          padding-left: 5px
+    .task-list-items
+      &.plan
+        border: $border
+        border-width: 2px
+      padding-left: 20px
+      margin-left: 1rem
+      width: 100%
+      table-layout: fixed
+      .col
+        line-height: 13px
+      .col1
+        width: 50%
+        div
+          overflow: hidden
+          height: 20px
+          width: auto
+          margin-bottom: 2px
+          font-size: 11px
+          line-height: 20px
+          text-overflow: ellipsis
+          background: $color-task-blue
+          border-radius: 5px
+          border: $border
+          padding: 2px 6px
+      .col2
+        width: 2rem
+        text-align: center
+        line-height: 19px
+      .col3
+        opacity: 0.4
+        width: 0.7rem
+        line-height: 19px
+        text-align: center
+        & > img
+          width: 0.5rem

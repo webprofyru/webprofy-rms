@@ -1,0 +1,15 @@
+mixin timeTracking(path)
+  .task-body(ng-if='!taskView.task' set-task-visible='taskView.time' rms-task='taskView.time.task', ng-model='taskView.time.task', ng-class='{loading:!taskView.time.task.isReady,completed:taskView.time.task.completed,workNotInDueDate:taskView.time.task.isReady&&!taskView.time.task.completed}')
+    .loading(ng-if='!taskView.time.task.isReady'): img(no-drag='' src='/images/icons/question1.svg')
+    .task-progress(ng-if='taskView.time.task.timeTracking')
+      .load(ng-if='!taskView.time.task.timeTracking.isReady')
+        img(no-drag='' src='/images/icons/reload9.svg')
+      div(ng-if='taskView.time.task.isReady')
+        .spent(style='width:{{taskView.time.task.timeWithinEstimate()}}%')
+        .overestimate(style='width:{{taskView.time.task.timeAboveEstimate()}}%')
+        .percent {{taskView.time.task.timeReported()}}
+    span.title(ng-if='taskView.time.task.isReady') {{taskView.time.task.title}}
+    span.duration(rms-task-duration='') {{filter.taskPeriod(taskView.time.task, 'estimate', taskView.time)}}
+    span.due-date(ng-if='taskView.time.task.isReady' rms-task-due-date='') {{filter.shortDate(taskView.time.task,'duedate')}}
+
+

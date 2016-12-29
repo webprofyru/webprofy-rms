@@ -1,0 +1,41 @@
+#modal-changes(ng-controller='ViewChanges' view-changes-fix='' ng-switch-when='changes' style='height:{{Math.max(200, layout.height - 80)}}px')
+  table.title(width='100%'): tr
+    td: h3 CHANGES
+    td.action-buttons(align='right')
+      button.flat-button.undo(ng-class='{disabled: !changes.hist.hasUndo()}' ng-click='changes.hist.hasUndo() && changes.hist.undo()' title='Undo')
+        img(no-drag='' src='./images/icons/undo.svg')
+      button.flat-button.redo(ng-class='{disabled: !changes.hist.hasRedo()}' ng-click='changes.hist.hasRedo() && changes.hist.redo()' title='Redo')
+        img(no-drag='' src='./images/icons/redo.svg')
+  .main-table-border(same-width='[view.renderVer, layout.height]')
+    table.main-table.header(same-width-dest='')
+      thead
+        th: div Type
+        th: div Title
+        th: div Property
+        th: div New value
+        th: div Conflict
+        th
+    .table-scroll(same-width-src='' style='height:{{Math.max(200, layout.height - 80) - 140}}px')
+      table.main-table.data
+        tr(ng-repeat-start='item in view.changes' ng-if='!item.error' ng-class='{dark: item.isDark}')
+          td: div {{item.doc.$ds_docType}}
+          td: div {{item.doc.title}}
+          td: div {{item.prop}}
+          td: div {{item.value}}
+          td: div {{item.conflict}}
+          td: img(no-drag='' ng-if='item.remove' src="./images/icons/recycling-can.svg" ng-click='item.remove()').icon-remove
+        tr(ng-repeat-end='' ng-if='item.error' class='error' ng-class='{dark: item.isDark}')
+          td: | &nbsp;
+          td(colspan='4'): | Error: {{item.error}}
+          td: | &nbsp;
+  .btn-group
+    button.flat-button.changes-modal-reset(ng-click='view.changes.length && reset()' ng-class='{disabled: !view.changes.length}'): table: tr
+      td: img(no-drag='' src='./images/icons/recycling-man.svg')
+      td reset
+    button.flat-button.changes-modal-close(ng-click='showChanges()'): table: tr
+      td: img(no-drag='' src='./images/icons/close.svg').close
+      td close
+    button.flat-button.changes-modal-save(ng-click='view.changes.length && save()' ng-class='{disabled: !view.changes.length}'): table: tr
+      td: img(no-drag='' src='./images/icons/fly.svg')
+      td save
+

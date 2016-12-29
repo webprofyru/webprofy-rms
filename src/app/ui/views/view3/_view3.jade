@@ -1,0 +1,96 @@
+div(ng-controller='View3' style='width:{{layout.area3.width}}px;height:{{layout.area3.height}}px')#sidebar
+  .sub-header(ng-class='{narrow: layout.area3.width < 420}')
+    //ul.tabs(ng-show='layout.area3.width >= 250')
+    table.tabs: tr
+      td(rms-view3-drop-task='-1' ng-click='config.activeSidebarTab = -1' nowrap='' ng-class='{active: config.activeSidebarTab == -1}') {{layout.area3.width < 315 ? 'CLIP' : 'CLIPBOARD'}}
+      td(rms-view3-drop-task='0' ng-click='config.activeSidebarTab = 0' nowrap='' ng-class='{active: config.activeSidebarTab == 0}') {{layout.area3.width < 315 ? 'NO DATE' : layout.area3.width < 510 ? 'NO DUE DATE' : 'WITHOUT DUE DATE'}}
+      td(rms-view3-drop-task='1' ng-click='config.activeSidebarTab = 1' nowrap='' ng-class='{active: config.activeSidebarTab == 1}') {{layout.area3.width < 315 ? 'NEXT' : 'NEXT WEEK'}}
+      td(ng-click='config.activeSidebarTab = 2' nowrap='' ng-class='{active: config.activeSidebarTab == 2}') {{layout.area3.width < 315 ? 'TASKS' : layout.area3.width < 510 ? 'ALL TASKS' : 'ALL TASKS BY PROJECT'}}
+  .content-block
+    .load-spinner(ng-if="view.dataStatus =='load'")
+      .spinner
+        .dot1
+        .dot2
+    ul.tasks-block.no-scroll(rms-view3-drop-task='' style='height:{{layout.area3.height - 46}}px')
+      .search-block: table(border='0px'): tr
+        td.filters: table.filters
+          tr(ng-show='config.view3GroupByPerson == 1')
+            td.label: label(for='filter-person') Person:
+            td.input
+              table(width='100%'): tr
+                td(width='100%'): table.input(width='100%'): tr
+                    td.left-padding &nbsp;
+                    td: input(id='filter-person' ng-model='config.view3FilterByPerson')
+                    td.right-padding &nbsp;
+                td: .clear: img.clear(no-drag='' ng-click='config.view3FilterByPerson = ""' src='./images/icons/close.svg' title='Clear field')
+          tr
+            td.label: label(for='filter-project') Project:
+            td.input
+              table(width='100%'): tr
+                td(width='100%'): table.input(width='100%'): tr
+                  td.left-padding &nbsp;
+                  td: input(id='filter-project' ng-model='config.view3FilterByProject')
+                  td.right-padding &nbsp;
+                td: .clear: img.clear(no-drag='' ng-click='config.view3FilterByProject = ""' src='./images/icons/close.svg' title='Clear field')
+          tr
+            td.label: label(for='filter-task') Task:
+            td.input
+              table(width='100%'): tr
+                td(width='100%'): table.input(width='100%'): tr
+                  td.left-padding &nbsp;
+                  td: input(id='filter-task' ng-model='config.view3FilterByTask')
+                  td.right-padding &nbsp;
+                td: .clear: img.clear(no-drag='' ng-click='config.view3FilterByTask = ""' src='./images/icons/close.svg' title='Clear field')
+        td.mode
+          button.flat-button.groupByPerson(title='Group tasks by people' ng-class='{active: config.view3GroupByPerson}' ng-click='config.view3GroupByPerson = config.view3GroupByPerson == 1 ? 0 : 1'): ul
+            img(no-drag='' src='./images/icons/users.svg')
+          button.flat-button.hideEmptyPeople(title='Hide people without tasks' ng-if='config.view3GroupByPerson' ng-class='{active: config.view3HidePeopleWOTasks}' ng-click='config.view3HidePeopleWOTasks = config.view3HidePeopleWOTasks == 1 ? 0 : 1'): ul
+            img(no-drag='' src='./images/icons/profile.svg')
+      .scroll-viewport(style='height:{{layout.area3.height - (config.view3GroupByPerson == 0 ? 120 : 148)}}px')
+        .scroll-body
+
+            mixin projects(projects)
+              li(ng-repeat='project in #{projects}' ng-click='toggleProjectExpanded(project); $event.stopPropagation()')
+                table.project: tr
+                  td
+                    i(ng-class='isProjectExpanded(project) ? "fa-caret-up" : "fa-caret-down"').fa
+                  td
+                    h3 {{project.project.name}}
+                .task-list(ng-repeat='taskList in project.taskLists' ng-if='isProjectExpanded(project)')
+                  div(ng-click='taskList.isExpand = !taskList.isExpand; $event.stopPropagation()').task-list-title
+                    table.todo-list: tr
+                      td
+                        i(ng-class='taskList.isExpand ? "fa-caret-up" : "fa-caret-down"').fa
+                      td
+                        h4 {{taskList.taskList.name}} (Tasks: {{taskList.tasksCount}}. Estimate: {{filter.taskPeriod(taskList, 'totalEstimate')}} )
+                  table(ng-if='taskList.isExpand').task-list-items
+                    tr(ng-repeat='task in taskList.tasks')
+                      td.col1
+                        div(rms-task='task', ng-model='task').view3-task {{task.title}}
+                      td.col2
+                        strong {{filter.taskPeriod(task, 'estimate')}}
+                      td.col3(ng-if='view3ActiveTab == -1' ng-click='task.clipboard = false; $event.stopPropgation()')
+                        img(no-drag='' src='./images/icons/close.svg')
+
+            div(ng-if='config.view3GroupByPerson == 0')
+              ul
+                +projects('view.projects')
+
+            div(ng-if='config.view3GroupByPerson == 1')
+              li(ng-repeat='person in view.people' ng-click='togglePersonExpanded(person); $event.stopPropagation()')
+                table.person
+                  tr(ng-if='person.row != null')
+                    td
+                      i(ng-class='isPersonExpended(person) ? "fa-caret-up" : "fa-caret-down"').fa
+                    td.avatar
+                      img.avatar(no-drag='' ng-src='{{person.row.person.avatar}}', alt='')
+                    td.name {{person.row.person.name}}
+                  tr(ng-if='person.row == null')
+                    td
+                      i(ng-class='isPersonExpended(person) ? "fa-caret-up" : "fa-caret-down"').fa
+                    td: h4.notAssigned NOT ASSIGNED TASKS
+                div(ng-if='isPersonExpended(person)')
+                  ul.none.person-projects(ng-if='person.projects.length == 0')
+                    | none
+                  ul.person-projects(ng-if='person.projects.length > 0')
+                    +projects('person.projects')

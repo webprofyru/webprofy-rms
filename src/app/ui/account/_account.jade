@@ -1,0 +1,17 @@
+#account(ng-init='loginIsShown=false' ng-class='{show:loginIsShown}' ng-if='isShowAccount' rms-account='')
+    form.body(name='accountForm')
+      .field.company
+          input(type='text' placeholder='teamwork url' ng-model='url')
+      .field.token
+          input(type='text' placeholder='access token' ng-model='token')
+      .field.refreshPeriod
+        label(for='refreshPeriod') Refresh period (minutes):
+        input(name='refreshPeriod' type='number' placeholder='Manual refresh' pattern='^\\s*\\d{0,4}\\s*$' ng-model='refreshPeriod')
+        span.error(ng-show='accountForm.refreshPeriod.$invalid') Invalid value
+      .field.autoSave
+        label
+          input(name='refreshPeriod' type='checkbox' ng-model='autosave')
+          | Autosave
+      .btn-group
+        button.flat-button(type='submit' ng-disabled='accountForm.$pristine || accountForm.$invalid' ng-click='save()') Save
+        button.flat-button.right(type='button' ng-click='close()') Close

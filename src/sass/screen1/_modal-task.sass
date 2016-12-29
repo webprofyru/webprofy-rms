@@ -1,0 +1,162 @@
+#modal-task
+  @extend %modal-task
+  display: inline-table
+  top: 20%
+  left: 50%
+  transform: translate(-50%, 0)
+  .task-modal-link
+    float: left
+  .task-modal-close
+    float: right
+  .select
+    background-color: $color-header-dark
+  .warn
+    background-color: saturate($color-header-dark, 50%)
+  .task-modal-wrapper-main
+    width: 30rem
+    display: inline-block
+    margin-bottom: 8px
+    .task-modal-row
+      &.project
+        margin-top: 8px
+      &.project.edit, &.task-list.edit, &.split.edit, &.tags.edit
+        margin-bottom: 4px
+        overflow: visible
+      &.responsible.edit
+        margin-bottom: 6px
+        overflow: visible
+      &.split.edit
+        margin-bottom: 8px
+        & > input[type=checkbox]
+          vertical-align: middle
+      &.tags.edit
+        .task-modal-row-title
+          margin-top: 4px
+      .point
+        height: 16px
+        width: 16px
+        border-radius: 3px
+        margin-right: 2px
+      width: 100%
+      float: left
+      margin-bottom: 10px
+      overflow: auto
+      @include layout(13 no-gutters)
+      .task-modal-row-title
+        @include span(3)
+        text-align: right
+        padding-right: 1rem
+      .task-modal-row-value
+        @include span(10)
+        &.tags
+          margin-left: -3px
+      .task-modal-title
+        width: 60%
+      .task-modal-description
+        width: 73%
+      .task-modal-estimate-hours
+        width: 2.3rem
+      .task-modal-estimate-minutes
+        width: 2.3rem
+        margin-left: 1rem
+      .task-modal-estimate-duration
+        padding-left: 0.2rem
+      .task-modal-duedate
+        width: 8rem
+      .task-modal-project, .task-modal-task-list
+        display: inline-block
+        float: left
+        width: 19rem
+      .task-modal-person
+        display: inline-block
+        float: left
+        width: 9rem
+      .task-modal-tag
+        display: inline-block
+        float: left
+        width: 9rem
+        margin-left: 3px
+        margin-top: 2px
+      .task-modal-icon-link
+        vertical-align: middle
+        margin-top: -7px
+        padding-left: 0.5rem
+        height: 15px
+        opacity: 0.5
+        &:hover
+          opacity: 0.3
+      .task-modal-icon-recycling
+        margin-left: 0.5rem
+        cursor: pointer
+        &:hover
+          opacity: 0.5
+        &.icon-after-select
+          display: block
+          float: left
+          margin-top: 5px
+  .task-modal-wrapper-split
+    margin-top: 14px
+    display: inline-block
+    vertical-align: top
+    table
+      margin-bottom: 1.5rem
+      th
+        font-weight: normal
+        font-size: 11px
+        text-align: left
+        padding-bottom: 10px
+      td
+        width: 5.4rem
+        padding: 4px
+        &:first-child
+          width: 2rem
+        .task-split-estimate-wrapper
+          input, div
+            width: 25%
+            text-align: right
+            &.task-modal-estimate-minutes
+              margin-left: 8px
+      tr.row-total-time
+        td
+          font-size: 0.7rem
+          padding: 0 4px
+          line-height: 1
+          text-align: center
+      tr.row-arrows
+        td
+          padding-top: 10px
+    .table-icon-arrow
+      text-align: center
+      width: 40px
+      height: 26px
+      & > img
+        padding-top: 2px
+        margin-top: 0
+
+  input
+    padding: 2px 6px
+    border-radius: 3px
+    border: none
+
+  a
+    text-decoration: none
+
+  .form-btn-row
+    padding: 0 12px 4px 12px
+    button
+      height: 26px
+    .plan
+      margin-left: 22px
+    .right
+      float: right
+    .save, .right
+      width: 70px
+
+  .splitDiff
+    margin-left: 1rem
+    padding: 2px 4px
+
+  .auto-split
+    height: 22px
+    line-height: 10px
+    margin-left: 1rem

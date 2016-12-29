@@ -1,0 +1,16 @@
+#modal-task-info(ng-switch-when='task-info' rms-task-info='' style='top:{{top}}px;left:{{left}}px')
+  ul
+    li
+      span.task-info-label Project
+      span.task-info-value {{task.project.name}}
+    li
+      span.task-info-label Todo list:
+      span.task-info-value {{task.taskList.name}}
+    li
+      span.task-info-label Title:
+      span.task-info-value {{task.title}}
+    li(ng-if='task.tags')
+      span.task-info-label Tags:
+      span.task-info-value.tags
+        span.task-tag(ng-repeat='tag in orderedTags' style='background-color: {{tag.color}}') {{tag.name}}
+

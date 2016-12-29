@@ -1,0 +1,68 @@
+
+extends ./_layout.jade
+
+block vars
+  - var title = 'RMS Report'
+  - var appName = 'reports-app'
+
+block css
+
+  style.
+    .ng-cloak {display: none;}
+
+  // there is no mobile-angular-ui CDN, so we keep it locally
+  link(href = 'libs/mobile-angular-ui/css/mobile-angular-ui-base.css' rel='stylesheet')
+  link(href = 'libs/mobile-angular-ui/css/mobile-angular-ui-desktop.css' rel='stylesheet')
+  link(href = 'libs/mobile-angular-ui/css/mobile-angular-ui-hover.css' rel='stylesheet')
+
+  // bootstrap.css brings styles used by angular ui components
+  link(href = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap#{min}.css' rel='stylesheet')
+
+block scripts
+
+  // TODO: Add min support
+  script(src = './excel-builder-packed#{min}.js')
+
+  //script(src = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require#{min}.js')
+  //// Required by excel-builder
+  //- var underscoreMin = dev ? '' : '-min'
+  //script(src = 'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore#{underscoreMin}.js')
+  //script(src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip#{min}.js')
+  //script(src = 'libs/excel-builder/excel-builder.compiled#{min}.js')
+
+  script(src = 'libs/spinjs/spin#{min}.js')
+  script(src = 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment#{min}.js')
+  script(src = 'libs/mobile-angular-ui/js/mobile-angular-ui#{min}.js')
+  script(src = 'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.2/ui-bootstrap-tpls#{min}.js')
+
+  // lodash is required by JSApp code
+  script(src = 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash#{min}.js')
+
+
+  //script(src = 'https://cdnjs.cloudflare.com/ajax/libs/ramda/0.19.1/ramda#{min}.js')
+  //script(src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx#{min}.js')
+
+  // Zork: Does not have a global object - so should be included thru 'require'  Could be good for AMD
+  //script(src = 'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver#{min}.js')
+
+  script(src = 'reports#{min}.js')
+
+block content
+
+  .ng-cloak.container-fluid(reports = '')
+    .row
+      .col-lg-8.col-lg-offset-2
+        //.row
+        //  h1 Отчеты
+        .row
+          h3 Списание часов по людям по проектам за период
+        .row
+          form(name='form').col-md-4
+            .form-group
+              label(for='period') Период:
+              input.form-control(required='' ng-disabled='progressMessage' type='text' name='period' uib-datepicker-popup='MM.yyyy' format-month='MM' datepicker-options='{minMode: "month"}' show-button-bar='false' is-open='selectPeriod' ng-click='selectPeriod=!selectPeriod' ng-model='period')
+              label(ng-if='form.period.$invalid' for='period' style='color:red') Укажите месяц
+            .form-group(ng-if = 'progressMessage')
+              div(show-spinner='' style='display:inline-block; width:32px; height:32px; position:relative; margin-right:10px')
+              span {{progressMessage}}
+            button.btn.btn-primary(ng-disabled='form.$invalid || progressMessage' type='submit' ng-click='generateReport()') Сформировать отчёт

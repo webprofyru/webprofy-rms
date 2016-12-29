@@ -1,0 +1,48 @@
+#bottom-block
+  @include layout((7, 1, 3, 3, 3, 3, 3, 3, 3, 1) no-gutters) // Person, Time, 7 x days, right small column
+  h3, h4
+    margin-top: 2px
+    margin-bottom: 0
+
+  font-size: 12px
+
+  $header-text-height: 18px
+  $subheader-height: 16px
+
+  .col-title
+    line-height: $header-text-height
+    @include span(4 of 30)
+    h3
+      margin-left: $wide-border
+
+  .col-not-assigned-tasks
+    position: absolute
+    width: 100%
+    @include pre(2)
+    .compensate-pre
+      left: -#{span(2)}
+    .header
+      line-height: $header-text-height
+      background: none
+      height: auto
+    .sub-header-row
+      display: none
+    .tasks
+      position: absolute
+      @include span(21 of 30)
+    .task
+      @extend %task-on-grid
+
+  .col-late-tasks
+    @include span(4 of 30) // Hack
+    position: absolute
+    margin-left: #{(span(2 at 1) - span(1 at 3)) * 2/3}
+    .header
+      line-height: $header-text-height
+      background: none
+      height: auto
+    .sub-header-row
+      display: none
+    .tasks
+      position: absolute
+      width: 100%
