@@ -38,10 +38,11 @@ ngModule.factory 'TWTags', ['DSDataTeamworkPaged', 'DSDataSource', '$rootScope',
 
       onError = (error, isCancelled) =>
         if !isCancelled
-          if error.hasOwnProperty('status') # it's $http response
-            toastr.error "Failed to load <i>data/tags.json</i>:<br/><br/> #{error.status} #{error.statusText}", null, positionClass: 'toast-top-center', newestOnTop: true, timeOut: -1
-          else # it's an exception
-            toastr.error "Invalid <i>data/tags.json</i>:<br/><br/> #{error.message}", null, positionClass: 'toast-top-center', newestOnTop: true, timeOut: -1
+# No tags.json - no problem
+#          if error.hasOwnProperty('status') # it's $http response
+#            toastr.error "Failed to load <i>data/tags.json</i>:<br/><br/> #{error.status} #{error.statusText}", null, positionClass: 'toast-top-center', newestOnTop: true, timeOut: -1
+#          else # it's an exception
+#            toastr.error "Invalid <i>data/tags.json</i>:<br/><br/> #{error.message}", null, positionClass: 'toast-top-center', newestOnTop: true, timeOut: -1
           @set 'cancel', null
         return []
 
@@ -86,7 +87,7 @@ ngModule.factory 'TWTags', ['DSDataTeamworkPaged', 'DSDataSource', '$rootScope',
         person.set 'color', (tagColor = jsonTag['color'])
         person.set 'twColor', tagColor
 
-      cnt
+      1 # to prevent from loading a next page
 
     finalizeLoad: ->
 
