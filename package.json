@@ -21,6 +21,7 @@
   "homepage": "https://github.com/webprofyru/rms#readme",
   "devDependencies": {
     "coffee-script": "^1.10.0",
+    "coffeeify": "^2.1.0",
     "ds-gulp-builder": "^0.2.3",
     "ds-gulp-builder-browser-sync": "^0.2.1",
     "ds-gulp-builder-browserify": "^0.2.1",

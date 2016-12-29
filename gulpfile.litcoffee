@@ -43,12 +43,19 @@
     tasks.push task('gh-CNAME').copy('./src/CNAME').dest('./build')
     tasks.push task('gh-nojekyll').copy('./src/.nojekyll').dest('./build')
 
+Подключаем coffeeify, чтобы browserify мог работать с .coffee файлами
+------------------------------
+
+    coffeeifyExt =
+      fileExt: '.coffee'
+      transforms: require 'coffeeify'
+
 Основное приложение
 ------------------------------
 
 JS
 
-    tasks.push task('app-js').browserify('./src/app/app.coffee').dest('./build')
+    tasks.push task('app-js').browserify('./src/app/app.coffee', ext: coffeeifyExt).dest('./build')
 
 HTML
 
@@ -81,7 +88,7 @@ Data
 
 JS
 
-      tasks.push task('tests-js').browserify('./test/test.coffee', min: false).dest('./build')
+      tasks.push task('tests-js').browserify('./test/test.coffee', min: false, ext: coffeeifyExt).dest('./build')
 
 HTML
 
@@ -96,7 +103,7 @@ HTML
 
 JS
 
-  tasks.push task('emails-js').browserify('./src/app/svc/emails/emails.coffee').dest('./build')
+  tasks.push task('emails-js').browserify('./src/app/svc/emails/emails.coffee', ext: coffeeifyExt).dest('./build')
 
 Делаем из jade скрипт-шаблон для формы письма, которые будем использоваться в http://rms.webprofy.ru/emails.
 
@@ -126,7 +133,7 @@ Reports
 
 JS
 
-    tasks.push task('reports-js').browserify('./src/reports/reports.coffee').dest('./build')
+    tasks.push task('reports-js').browserify('./src/reports/reports.coffee', ext: coffeeifyExt).dest('./build')
 
 HTML
 
