@@ -84,8 +84,8 @@ ngModule.factory 'TWTags', ['DSDataTeamworkPaged', 'DSDataSource', '$rootScope',
 
         person.set 'id', parseInt jsonTag['id']
         person.set 'name', tagName
-        person.set 'color', (tagColor = jsonTag['color'])
-        person.set 'twColor', tagColor
+        //person.set 'color', (tagColor = jsonTag['color'])
+        //person.set 'twColor', tagColor
 
       1 # to prevent from loading a next page
 
