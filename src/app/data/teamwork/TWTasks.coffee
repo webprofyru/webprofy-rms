@@ -198,6 +198,7 @@ ngModule.factory 'TWTasks', [
         task.set 'taskList', taskList
         task.set 'title', jsonTask['content']
         task.set 'estimate', if (estimate = jsonTask['estimated-minutes']) then moment.duration(estimate, 'minutes') else null
+        task.set 'progress', jsonTask['progress']
         task.set 'duedate', if (duedateStr = jsonTask['due-date']) then moment(duedateStr, 'YYYYMMDD') else null
         task.set 'startDate', if (date = jsonTask['start-date']) then moment(date, 'YYYYMMDD') else null
         task.set 'completed', jsonTask['completed']

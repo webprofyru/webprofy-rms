@@ -73,7 +73,7 @@ ngModule.factory 'PersonDayStatData', [(->
                 else
                   n = (duedate.valueOf() - startDate.valueOf()) // (24 * 60 * 60 * 1000)
                   if 0 <= n < dayStats.length
-                    tasksTotal[n].add estimate if (estimate = task.get('estimate')) != null
+                    tasksTotal[n].add estimate if (estimate = task.get('remaining')) != null
                     tasksCounts[n]++
           contractTime = person.get('contractTime')
           totalPeriodTime = moment.duration(0)

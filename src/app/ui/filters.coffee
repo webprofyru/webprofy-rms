@@ -42,7 +42,7 @@ ngModule.run ['$rootScope', (($rootScope) ->
         if doc
           error.invalidArg 'doc' unless doc == null || doc instanceof DSObject
           error.invalidArg 'prop' unless prop == null || (props = doc.__proto__.__props).hasOwnProperty prop
-          throw new Error "Expected property with type 'duration', but property '#{prop}' has type #{type}" if !((type = props[prop].type) == 'duration')
+          # throw new Error "Expected property with type 'duration', but property '#{prop}' has type #{type}" if !((type = props[prop].type) == 'duration')
       res = ''
 
       if time

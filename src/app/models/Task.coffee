@@ -86,6 +86,7 @@ module.exports = class Task extends DSDocument
   @str = ((v) -> if v == null then '' else v.get('title'))
 
   @propNum 'id', init: 0
+  @propNum 'progress', init: 0
   @propDoc 'project', Project
   @propDoc 'taskList', TaskList
   @propStr 'title'
@@ -96,6 +97,24 @@ module.exports = class Task extends DSDocument
     res += " #{minutes}m" if minutes
     res = '0' if !res
     return res)
+
+  @prop {
+    name: 'remaining',
+    type: 'calc',
+    func: (-> 
+      return null if (estimate = @get('estimate')) == null
+      return moment.duration(estimate.valueOf() * (100 - @get('progress')) / 100)
+    )
+  }
+
+#  @propDuration 'remaining', null, calc: true, func: (-> 
+#    console.log('is calc!');
+#    return null if (estimate = @get('estimate')) == null
+#    console.log(estimate.valueOf());
+#    moment.duration(estimate.valueOf() * (100 - @get('progress')) / 100)
+#  )
+
+
   (@propMoment 'duedate').str = ((v) -> if v == null then '' else v.format 'DD.MM.YYYY')
   (@propMoment 'startDate').str = ((v) -> if v == null then '' else v.format 'DD.MM.YYYY')
 

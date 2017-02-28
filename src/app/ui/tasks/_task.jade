@@ -9,7 +9,8 @@ mixin task(path, time, ngIf)
         .percent {{#{path}.timeReported()}}
     span.project {{#{path}.project.name}}
     span.title {{#{path}.title}}
-    span.duration(ng-if='!taskView.split' rms-task-duration='') {{filter.taskPeriod(#{path},'estimate'#{time ? ',' + time : ''})}}
+    span.progress(ng-if='#{path}.progress > 0') {{#{path}.progress}}% done!
+    span.duration(ng-if='!taskView.split' rms-task-duration='') {{#{path}.progress ? filter.taskPeriod(#{path},'remaining') + ' of ' : ''}}{{filter.taskPeriod(#{path},'estimate'#{time ? ',' + time : ''})}}
     span.due-date(rms-task-due-date='') {{filter.shortDate(#{path},'duedate')}}
     ul.split-task(ng-if='taskView.split')
       li(ng-repeat='duration in taskView.split')
