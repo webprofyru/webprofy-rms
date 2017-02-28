@@ -230,7 +230,7 @@ ngModule.factory 'TWTasks', [
             tagDoc = (tags ?= {})[tag.name] = Tag.pool.find @, tag.name
             tagDoc.set 'id', tag.id
             tagDoc.set 'name', tag.name
-            tagDoc.set 'color', tagDoc.set 'twColor', tag.color
+            # tagDoc.set 'color', tagDoc.set 'twColor', tag.color
             (tags ||= {})[tag.name] = tagDoc
           if tags == null
             task.set 'tags', null

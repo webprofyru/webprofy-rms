@@ -80,12 +80,12 @@ ngModule.factory 'TWTags', ['DSDataTeamworkPaged', 'DSDataSource', '$rootScope',
 
         ++cnt
 
-        person = Tag.pool.find @, (tagName = jsonTag['name']), @tagsMap
+        twTag = Tag.pool.find @, (tagName = jsonTag['name']), @tagsMap
 
-        person.set 'id', parseInt jsonTag['id']
-        person.set 'name', tagName
-        //person.set 'color', (tagColor = jsonTag['color'])
-        //person.set 'twColor', tagColor
+        twTag.set 'id', parseInt jsonTag['id']
+        twTag.set 'name', tagName
+        # twTag.set 'color', (tagColor = jsonTag['color'])
+        twTag.set 'twColor', (tagColor = jsonTag['color'])
 
       1 # to prevent from loading a next page
 
