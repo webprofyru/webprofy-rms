@@ -26,7 +26,6 @@
     "ds-gulp-builder-browser-sync": "^0.2.1",
     "ds-gulp-builder-browserify": "^0.2.1",
     "ds-gulp-builder-jade": "^0.2.1",
-    "ds-gulp-builder-sass": "^0.2.2",
     "gulp": "^3.9.1",
     "gulp-changed": "^1.3.0",
     "gulp-include": "^2.1.0",
@@ -38,6 +37,7 @@
   },
   "dependencies": {
     "commonjs": "0.0.1",
+    "ds-gulp-builder-sass": "0.2.4",
     "jszip": "^2.5.0",
     "requirejs": "^2.2.0",
     "xlsx": "^0.8.0"

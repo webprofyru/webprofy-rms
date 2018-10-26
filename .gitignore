@@ -5,3 +5,4 @@
 *.ipr
 build
 node_modules
+npm-debug*
