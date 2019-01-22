@@ -67,7 +67,7 @@ ngModule.factory 'DSView', ['dsDataService', '$log', ((dsDataService, $log) ->
       @__unwatch1 = (@__scope = $scope).$on '$destroy', (=> delete @__unwatch1; @release $scope)
       @__dirty = 0
       @__src = _.cloneDeep @__proto__.__src
-      @__srcList = new Array(__proto__.__srcLength)
+      @__srcList = new Array(@__proto__.__srcLength)
       @dataStatus = 'nodata'
       setDirty = (=> @__dirty++; return)
       for k, v of @__src
