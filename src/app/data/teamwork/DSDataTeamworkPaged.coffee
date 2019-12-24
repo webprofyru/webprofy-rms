@@ -9,7 +9,7 @@ error = require('../../../dscommon/util').error
 DSData = require '../../../dscommon/DSData'
 DSDigest = require '../../../dscommon/DSDigest'
 
-WORK_ENTRIES_WHOLE_PAGE = 500
+WORK_ENTRIES_WHOLE_PAGE = 100
 
 ngModule.factory 'DSDataTeamworkPaged', ['DSDataSource', '$rootScope', '$q', ((DSDataSource, $rootScope, $q) ->
 
@@ -70,7 +70,9 @@ ngModule.factory 'DSDataTeamworkPaged', ['DSDataSource', '$rootScope', '$q', ((D
               else
                 @_endLoad true
             else onError(resp, resp.status == 0)
-            return), onError))(1)
+            return
+          ), onError)
+      )(1)
 
       return)
 
